@@ -27,8 +27,8 @@
 <body>
 
 <img src="https://ajlovechina.github.io/loveBalloon/static/music.png"
-     style="position: fixed;z-index: 10001;top:10px;right:10px;"
-     onclick="let m = document.querySelector('.song-audio-autoplay'); if (m.paused ) {m.play(); this.className = 'rotateImages'} else {m.pause(); this.className = ''}">
+     style="position: fixed;z-index: 10001;top:10px;right:10px;" class="img"
+     onclick="play()">
 <audio class="song-audio-autoplay" controls loop style="display: none;visibility: hidden">
     <source src="./index_files/music.mp3" type="audio/mp3"/>
 </audio>
@@ -94,6 +94,16 @@
 </script>
 
 <script>
+	function play() {
+        let m = document.querySelector('.song-audio-autoplay');
+        if (m.paused) {
+            m.play();
+            $('.img').addClass('rotateImages');
+        } else {
+            m.pause();
+            $('.img').removeClass('rotateImages')
+        }
+    }
     (function () {
         var canvas = $('#canvas');
 
@@ -173,6 +183,14 @@
             y = e.pageY - offset.top;
             canvas.toggleClass('hand', seed.hover(x, y));
         });
+	const start = function () {
+            hold = 0;
+            canvas.unbind("click");
+            canvas.unbind("mousemove");
+            canvas.removeClass('hand');
+            play();
+        };
+        setTimeout(start, 2000);
 
         var seedAnimate = eval(Jscex.compile("async", function () {
             seed.draw();
